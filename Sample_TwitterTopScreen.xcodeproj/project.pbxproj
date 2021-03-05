@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A5CA14A25D641C70005377A /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5CA14925D641C70005377A /* TweetTableViewCell.swift */; };
-		2A8872CD25E4A43C006C7EEE /* TweetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A8872CC25E4A43C006C7EEE /* TweetTableViewCell.xib */; };
 		2A8872D325E4B3C8006C7EEE /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8872D225E4B3C8006C7EEE /* Tweet.swift */; };
 		2A8872D725E4B5A0006C7EEE /* NextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8872D625E4B5A0006C7EEE /* NextVC.swift */; };
+		2A8872DB25E5B709006C7EEE /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8872D925E5B709006C7EEE /* ModalViewController.swift */; };
+		2A8872DC25E5B709006C7EEE /* ModalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A8872DA25E5B709006C7EEE /* ModalViewController.xib */; };
+		2A88730925E728D1006C7EEE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A88730725E728D1006C7EEE /* TableViewCell.swift */; };
+		2A88730A25E728D1006C7EEE /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A88730825E728D1006C7EEE /* TableViewCell.xib */; };
 		2AC8B55D25CDCDD000A2BF0B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC8B55C25CDCDD000A2BF0B /* AppDelegate.swift */; };
 		2AC8B55F25CDCDD000A2BF0B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC8B55E25CDCDD000A2BF0B /* SceneDelegate.swift */; };
 		2AC8B56125CDCDD000A2BF0B /* TweetListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC8B56025CDCDD000A2BF0B /* TweetListVC.swift */; };
@@ -20,10 +22,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2A5CA14925D641C70005377A /* TweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
-		2A8872CC25E4A43C006C7EEE /* TweetTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TweetTableViewCell.xib; sourceTree = "<group>"; };
 		2A8872D225E4B3C8006C7EEE /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		2A8872D625E4B5A0006C7EEE /* NextVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextVC.swift; sourceTree = "<group>"; };
+		2A8872D925E5B709006C7EEE /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
+		2A8872DA25E5B709006C7EEE /* ModalViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModalViewController.xib; sourceTree = "<group>"; };
+		2A88730725E728D1006C7EEE /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		2A88730825E728D1006C7EEE /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		2AC8B55925CDCDD000A2BF0B /* Sample_TwitterTopScreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample_TwitterTopScreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AC8B55C25CDCDD000A2BF0B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2AC8B55E25CDCDD000A2BF0B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,8 +53,10 @@
 			isa = PBXGroup;
 			children = (
 				2AC8B56225CDCDD000A2BF0B /* Main.storyboard */,
-				2A5CA14925D641C70005377A /* TweetTableViewCell.swift */,
-				2A8872CC25E4A43C006C7EEE /* TweetTableViewCell.xib */,
+				2A88730725E728D1006C7EEE /* TableViewCell.swift */,
+				2A88730825E728D1006C7EEE /* TableViewCell.xib */,
+				2A8872D925E5B709006C7EEE /* ModalViewController.swift */,
+				2A8872DA25E5B709006C7EEE /* ModalViewController.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -161,9 +167,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AC8B56925CDCDD200A2BF0B /* LaunchScreen.storyboard in Resources */,
+				2A88730A25E728D1006C7EEE /* TableViewCell.xib in Resources */,
 				2AC8B56625CDCDD200A2BF0B /* Assets.xcassets in Resources */,
 				2AC8B56425CDCDD000A2BF0B /* Main.storyboard in Resources */,
-				2A8872CD25E4A43C006C7EEE /* TweetTableViewCell.xib in Resources */,
+				2A8872DC25E5B709006C7EEE /* ModalViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,10 +182,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AC8B56125CDCDD000A2BF0B /* TweetListVC.swift in Sources */,
+				2A88730925E728D1006C7EEE /* TableViewCell.swift in Sources */,
 				2A8872D325E4B3C8006C7EEE /* Tweet.swift in Sources */,
+				2A8872DB25E5B709006C7EEE /* ModalViewController.swift in Sources */,
 				2AC8B55D25CDCDD000A2BF0B /* AppDelegate.swift in Sources */,
 				2AC8B55F25CDCDD000A2BF0B /* SceneDelegate.swift in Sources */,
-				2A5CA14A25D641C70005377A /* TweetTableViewCell.swift in Sources */,
 				2A8872D725E4B5A0006C7EEE /* NextVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

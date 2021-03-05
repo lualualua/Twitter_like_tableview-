@@ -7,83 +7,105 @@
 
 import UIKit
 
-class TweetListVC: UIViewController, UITextFieldDelegate {
+class TweetListVC: UIViewController, ModalViewControllerDelegate {
     
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet weak var textField: UITextField!
+    let modalView = ModalViewController(nibName:"ModalViewController", bundle: nil)
 
-    
-    var tweets: [Tweet] = []
-    
-    let nameData = ["Tanaka", "Atarashi", "Futago", "Kani"]
-    let images = ["car", "cat", "first", "fruit"]
+    @IBOutlet weak private var addButton: UIButton!
+    @IBOutlet var tableView: UITableView!
+
+    var tweets = [Tweet]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        textField.delegate = self
-        tableView.register(UINib(nibName: "TweetTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
-
-
+        modalView.delegate = self
         
-//        tableView.rowHeight = UITableView.automaticDimension
-//        tableView.estimatedRowHeight = 600
-
+        tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        modalView.modalPresentationStyle = .fullScreen
         
-//        //ダミーデータの生成
-//        let user = User(id: "1", screenName: "tikitiki", name: "Tanaka", profileImage: )
-//        let tweet = Tweet(id: "01", text: "Have a good day!", user: user)
-//
-//        let tweets = [tweet]
-//        self.tweets = tweets
-
+        tableView.estimatedRowHeight = 200
+        
+        addNavBarImage()
+        buttonLayout()
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        tweets.append(textField.text!)
-        textField.text = ""
-        tableView.reloadData()
-        return true
+    //NavigationBarにアイコンを配置
+    func addNavBarImage() {
+        //アイコンサイズを代入しておく
+        let imageViewSize = 40
+        //set the size of icon
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageViewSize, height: imageViewSize))
+        imageView.contentMode = .scaleAspectFit
+        
+        //set the icon image
+        let image = UIImage(systemName: "hare.fill")
+        imageView.image = image
+        navigationItem.titleView = imageView
+        
+    }
+    
+    //FloatingButtonのレイアウト
+    func buttonLayout() {
+        //Create a new layer
+        let shadowLayer = CAShapeLayer()
+        
+        //set the cornerRadius
+        addButton.imageView?.layer.cornerRadius = addButton.frame.height / 2
+
+        //set the new layer's path to match the addButton
+        shadowLayer.path = UIBezierPath(roundedRect: addButton.bounds, cornerRadius: addButton.frame.height / 2).cgPath
+        shadowLayer.shadowPath = shadowLayer.path
+
+        //set the layer's fill color and it's shadow color
+        shadowLayer.fillColor = addButton.backgroundColor?.cgColor
+        shadowLayer.shadowColor = UIColor.darkGray.cgColor
+
+        shadowLayer.shadowOffset = CGSize(width: 0, height: 10)
+        shadowLayer.shadowOpacity = 0.25
+        shadowLayer.shadowRadius = 5
+        
+        addButton.imageView?.backgroundColor = .white
+
+        addButton.layer.insertSublayer(shadowLayer, at: 0)
     }
 
-    //キーボード外をクリックするとキーボードが閉じる？？？？？？？？？
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
+    //When coming back from the modal view
+    func modalDidFinish(comment: String, imageView: UIImage?) {
+        tweets = updateTweets(comment: comment, pickedImage: imageView)
+        tableView.reloadData()
+        modalView.dismiss(animated: true, completion: nil)
+    }
+
+    //Action on pressing the FloatingButton
+    @IBAction func addCommentButton(_ sender: Any) {
+        // 作成したViewControllerをモーダル表示する
+        self.present(modalView, animated: true)
     }
     
 
 }
 
-extension TweetListVC: UITableViewDelegate {
-    //
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
-    }
-    
+extension TweetListVC: UITableViewDelegate, UITableViewDataSource {
     //Cellの高さ
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        tableView.estimatedRowHeight = 60
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
     
+    //Cellを選択したら遷移
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let nextVC = (storyboard?.instantiateViewController(identifier: "next"))! as NextVC
+        nextVC.tweet = tweets[indexPath.row]
         navigationController?.pushViewController(nextVC, animated: true)
-//        nextVC.todoString = tweetArray[indexPath.row]
     }
-}
-
-
-extension TweetListVC: UITableViewDataSource{
     //Cellの数
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tweetArray.count
-    }
+        return tweets.count
+        }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TweetTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         let tweet = self.tweets[indexPath.row]
         cell.profileImageView.image = tweet.icon
         cell.nameLabel.text = tweet.name
@@ -95,8 +117,11 @@ extension TweetListVC: UITableViewDataSource{
         if let image = tweet.tweetImage {
             cell.imageContent.isHidden = false
             cell.imageContent.image = image
+            cell.imageContent.contentMode = .scaleAspectFill
         }
         return cell
     }
     
 }
+
+
