@@ -1,5 +1,5 @@
 # Twitter like tableview App
-You can tweet a text and an image!
+## You can tweet a text and an image!
 - iOS 11
 - Swift 5
 - Xcode 12.4
