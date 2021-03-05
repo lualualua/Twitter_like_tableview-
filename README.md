@@ -8,7 +8,7 @@ This is a tableview thats like a twitter
 - Reusing custom TableViewCell.xib file
 - Floating Action Button
 - Self-sizing tableview cell height depending on whether or not an image is selected
-- Reload tableView after dismissing the modalview
+- Reload tableView after dismissing the ModalView
 - Select photo
 - Autolayout
 
