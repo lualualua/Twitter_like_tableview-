@@ -7,7 +7,9 @@ This is a tableview thats like a twitter
 ## What's in this App?
 - Reusing custom TableViewCell.xib file
 - Floating Action Button
+- Self-sizing tableview cell height depending on whether or not an image is selected
 - Select photo
+- Autolayout
 
 
 <img src = "Screenshots/img1.png" height = 500><img src = "Screenshots/img2.png" height = 500>
