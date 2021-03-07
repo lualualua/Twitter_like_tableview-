@@ -9,7 +9,6 @@ import UIKit
 
 protocol ModalViewControllerDelegate {
     func modalDidFinish(comment: String, imageView: UIImage?)
-
 }
 
 class ModalViewController: UIViewController, UINavigationControllerDelegate, UITextViewDelegate {
@@ -21,17 +20,13 @@ class ModalViewController: UIViewController, UINavigationControllerDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         textView.delegate = self
         
         //キーボード上部にDoneボタンを追加
         makeToolBar()
-        
         //キーボード外を押したらキーボードを閉じる
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeybord))
-        self.view.addGestureRecognizer(recognizer)
-        
-        //選択した画像の角を丸くする
-        imageView.layer.cornerRadius = imageView.bounds.size.height / 4
+        dismissKeyboardTouchingOutside()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,7 +47,7 @@ class ModalViewController: UIViewController, UINavigationControllerDelegate, UIT
         //閉じるボタンを右に配置するためのスペース
         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil)
         //閉じるボタン
-        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(dismissKeybord))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(dismissKeyboard))
         //スペース・閉じるボタンを配置
         toolBar.items = [spacer, doneButton]
         //textViewのキーボードにToolbarを配置
@@ -60,8 +55,14 @@ class ModalViewController: UIViewController, UINavigationControllerDelegate, UIT
     }
 
     //キーボードを閉じるアクション
-    @objc func dismissKeybord() {
+    @objc func dismissKeyboard() {
         self.view.endEditing(true)
+    }
+    
+    //キーボード外を押したらキーボードを閉じる
+    func dismissKeyboardTouchingOutside() {
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(recognizer)
     }
     
     
@@ -97,9 +98,11 @@ extension ModalViewController: UIImagePickerControllerDelegate {
             //imageViewにカメラロールから選んだ画像を表示する
             imageView.image = selectedImage
             imageView.contentMode = .scaleAspectFill
+            //選択した画像の角を丸くする
+            imageView.layer.cornerRadius = imageView.bounds.size.height / 4
         }
         //画像をImageViewに表示したらアルバムを閉じる
         self.dismiss(animated: true)
-        dismissKeybord()
+        dismissKeyboard()
     }
 }
