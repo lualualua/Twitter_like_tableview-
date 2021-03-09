@@ -15,5 +15,19 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var textContentLabel: UILabel!
     @IBOutlet weak var imageContent: UIImageView!
 
-
+    //ラベル・Imageviewにデータをセットする
+    func setupCell(tweet: Tweet) {
+        profileImageView.image = tweet.icon
+        nameLabel.text = tweet.name
+        timeLabel.text = tweet.time
+        textContentLabel.text = tweet.text
+        //デフォルトは写真の表示をオフにしておく
+        imageContent.isHidden = true
+        //写真が選択された際は写真を表示する
+        if let image = tweet.tweetImage {
+            imageContent.isHidden = false
+            imageContent.image = image
+            imageContent.contentMode = .scaleAspectFill
+        }
+    }
 }

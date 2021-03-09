@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TweetListVC: UIViewController, ModalViewControllerDelegate {
+class TweetListVC: UIViewController {
     
     let modalView = ModalViewController(nibName:"ModalViewController", bundle: nil)
 
@@ -18,18 +18,25 @@ class TweetListVC: UIViewController, ModalViewControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        modalView.delegate = self
-        
-        tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
-        modalView.modalPresentationStyle = .fullScreen
-        
-        tableView.estimatedRowHeight = 200
-        
+        setupTableView()
+        setupModalView()
         addNavBarImage()
         buttonLayout()
     }
+    
+    //TableViewの設定
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+    }
+    
+    //ModalViewの設定
+    func setupModalView() {
+        modalView.delegate = self
+        modalView.modalPresentationStyle = .fullScreen
+    }
+
     
     //NavigationBarにアイコンを配置
     func addNavBarImage() {
@@ -71,26 +78,33 @@ class TweetListVC: UIViewController, ModalViewControllerDelegate {
         addButton.layer.insertSublayer(shadowLayer, at: 0)
     }
 
+    //Action on pressing the FloatingButton
+    @IBAction func addCommentButton(_ sender: Any) {
+        // 作成したViewControllerをモーダル表示する
+        self.present(modalView, animated: true)
+    }
+}
+
+//ModalViewControllerDelegateのProtocolに準拠させる
+extension TweetListVC: ModalViewControllerDelegate {
+    
     //When coming back from the modal view
     func modalDidFinish(comment: String, imageView: UIImage?) {
         tweets = updateTweets(comment: comment, pickedImage: imageView)
         tableView.reloadData()
         modalView.dismiss(animated: true, completion: nil)
     }
-
-    //Action on pressing the FloatingButton
-    @IBAction func addCommentButton(_ sender: Any) {
-        // 作成したViewControllerをモーダル表示する
-        self.present(modalView, animated: true)
-    }
-    
-
 }
+
 
 extension TweetListVC: UITableViewDelegate, UITableViewDataSource {
     //Cellの高さ
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        200
     }
     
     //Cellを選択したら遷移
@@ -103,22 +117,10 @@ extension TweetListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets.count
         }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
-        let tweet = self.tweets[indexPath.row]
-        cell.profileImageView.image = tweet.icon
-        cell.nameLabel.text = tweet.name
-        cell.timeLabel.text = tweet.time
-        cell.textContentLabel.text = tweet.text
-        //デフォルトは写真の表示をオフにしておく
-        cell.imageContent.isHidden = true
-        //写真が選択された際は写真を表示する
-        if let image = tweet.tweetImage {
-            cell.imageContent.isHidden = false
-            cell.imageContent.image = image
-            cell.imageContent.contentMode = .scaleAspectFill
-        }
+        cell.setupCell(tweet: tweets[indexPath.row])
         return cell
     }
     

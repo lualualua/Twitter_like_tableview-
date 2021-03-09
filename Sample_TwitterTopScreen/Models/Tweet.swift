@@ -40,4 +40,3 @@ func updateTweets(comment: String, pickedImage: UIImage?) -> [Tweet] {
         return tweets
     }
 
-
